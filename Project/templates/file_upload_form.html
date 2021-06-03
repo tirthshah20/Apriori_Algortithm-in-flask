@@ -1,0 +1,145 @@
+<html>  
+<head>  
+    <title>Apriori algorithm</title>  
+    <style>      
+        body {
+            text-align: center;
+        }
+        /* #fileName{
+  text-align: center;
+  margin: auto;
+  padding-left: 80px;
+} */
+
+input[type="number"] {
+  width: 100px;
+}
+.spacer {
+  margin-top: 2%;
+  margin-bottom: 2%;
+}      
+.block {
+  height: 300px;
+  padding-top: 15px;  
+  text-align: center;
+  /* background-color: darkorange; */
+}  
+.block2 {
+  min-height: 160px;
+  padding-top: 15px; 
+} 
+.center {
+  position: absolute;
+/*  top: 0;
+  bottom: 0; */
+  left: 0;
+  right: 0;
+  margin: auto;  
+}
+
+
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>  
+<body> 
+    <script type="text/javascript">
+        // function ShowAndHide() 
+        // {
+        //     var x = document.getElementById('SectionName');
+        //     if(x.style.display=='none')
+        //     {
+        //      //alert("Not showing image")
+        //         x.style.display = 'block'
+        //     }
+        // else{x.style.display = 'none';}
+        // document.getElementById("displaytable").style.display="block";
+        //} 
+
+        function fileValidation() {
+            var fileInput = document.getElementById('fileName');      
+            var filePath = fileInput.value;
+          // Allowing file type
+            var allowedExtensions = /(\.csv)$/i;
+              
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type');
+                fileInput.value = '';
+                return false;                
+                }
+                var oFile = document.getElementById("fileName").files[0]; // <input type="file" id="fileUpload" accept=".jpg,.png,.gif,.jpeg"/>
+            if (oFile.size > 2097152) // 2 MiB for bytes.
+            {
+                alert("File size must under 2MiB!");
+                return;
+            }
+            }    
+    </script>
+    
+<h3 class="text-primary" align="center">Apriori algorithm</h3>
+    <!-- <h3 class="text-success">Drop your file here:</h3>  -->
+<div class="container col-lg-12 block center">
+    <div class="row col-xs-6 block2  ">
+        <form class="form-horizontal" action = "/success" method = "post" enctype="multipart/form-data" align='center' >  
+            <div class="form-group" align='center'>
+            <label class="control-label col-sm-3">Drop your file here:</label> 
+            <div class="col-sm-5 col-form-label">
+            <input type="file" class="form-control col-sm-10" name="file" id="fileName" onchange="return fileValidation()" required /> 
+        </div>
+        </div> 
+        <div class="form-group ">
+            <label class="control-label col-sm-3"> Support:</label> 
+                <div class="col-sm-8 col-xs-12">
+                    <input type="number" class="form-control col-sm-10" id="support" min="0.00001" max="1" step="any" name="min_support" size="20"  required />
+            </div>
+        </div>
+            <div class="form-group ">
+            <label class="control-label col-sm-3"> Confidance: </label> 
+            <div class="col-sm-8 col-xs-12">
+            <input type="number" class="form-control" id="confidence" min="0.00001" max="1" step="any" name="min_confidance" size="20"  required />
+            </div>
+        </div>
+            <div class="form-group ">
+            <label class="control-label col-sm-3"> Lift: </label>
+            <div class="col-sm-8 col-xs-12">
+                <input type="number" class="form-control" id="lift" min="1" step="any"  name="min_lift" size="20" required />
+            </div>
+            </div>
+            <div class="form-group ">
+                <div class="col-sm-offset-2 col-sm-8">
+        function ShowAndHide() {
+            <input type = "submit" value="submit" class="btn btn-success" onclick="ShowAndHide();" />  </div>
+        </div>    
+    </form> 
+    
+</div>
+</div>
+<div   align="right" >
+    <a href="/Users/tirthshah/Downloads/Project/Static/algorithm.xlsx" download="Output">
+        <img id="SectionName" src="{{url_for('static',filename = 'excel1.jpeg')}}" alt="download_excel" width="60" height="30" STYLE="display:none">
+    </a>
+</div>
+
+<table class="table table-bordered" id="displaytable">
+<thead>
+    <tr>
+        {%- for column in columns %}
+                <th class="text-center">{{ column }}</th>
+
+        {%- endfor %}
+    </tr>
+</thead>
+<tbody>
+{%- for row in items %}
+    <tr>
+        {%- for column in columns %}
+
+                <td class="text-left">{{ row[column] }}</td>
+        {%- endfor %}
+    </tr>
+ {%- endfor %}
+</tbody>
+</table> 
+</body>  
+</html>  
